@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Test</title>
+    <script src="dist/decomp_wasm.js"></script>
+    <script src="dist/test_decomp.js"></script>
+  </head>
+  <body>
+    <script>
+      const doublesLength = 1562;
+      const tolerance = 1e-1;
+      fetch("/doubles.dat.zfp")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.arrayBuffer();
+        })
+        .then((data) => {
+          console.log("Byte array:", data);
+          // Convert back to Uint8Array if needed
+          const compressedData = new Int8Array(data);
+          console.log("Typed array:", compressedData);
+
+          decompress(compressedData, doublesLength, tolerance).then(
+            (doubles) => {
+              console.log("The doubles:", doubles);
+            },
+          );
+        })
+        .catch((error) => console.error("Error fetching JSON:", error));
+    </script>
+  </body>
+</html>
