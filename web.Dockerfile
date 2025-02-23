@@ -22,6 +22,6 @@ RUN mkdir -p /zfp/build && \
     .. && \
     emmake make
 
-WORKDIR /wasm-zfp
-COPY build.sh /wasm-zfp/
-COPY src /wasm-zfp/src
+WORKDIR /web-zfp
+COPY build.sh .
+COPY src/web ./src
