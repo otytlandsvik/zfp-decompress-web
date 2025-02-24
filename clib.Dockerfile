@@ -20,8 +20,8 @@ RUN mkdir -p /zfp && \
 # Build the library
 RUN mkdir -p /zfp/build && \
     cd /zfp/build && \
-    cmake .. && \
-    cmake --build . --config Release
+    cmake -DBUILD_SHARED_LIBS=OFF .. && \
+    make
 
 WORKDIR /clib-zfp
 COPY build_clib.sh .

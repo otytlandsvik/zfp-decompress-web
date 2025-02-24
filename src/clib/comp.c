@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* test f# interop */
+void hello_world() { printf("Hello, from clib!\n"); }
+
 /* compress array */
 char *compress(double *array, size_t nx, double tolerance, size_t *out_size) {
   zfp_type type;     /* array scalar type */
@@ -46,8 +49,8 @@ char *compress(double *array, size_t nx, double tolerance, size_t *out_size) {
   zfp_field_free(field);
   zfp_stream_close(zfp);
   stream_close(stream);
-  free(buffer);
-  free(array);
+  // free(buffer);
+  // free(array);
 
   return buffer;
 }
