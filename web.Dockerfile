@@ -23,5 +23,5 @@ RUN mkdir -p /zfp/build && \
     emmake make
 
 WORKDIR /web-zfp
-COPY build.sh .
+COPY build_web.sh .
 COPY src/web ./src

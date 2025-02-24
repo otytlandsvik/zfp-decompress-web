@@ -1,7 +1,9 @@
 # ZFP Decompression compiled for web with WASM
 
 A simple dcompression function for 1-dimensional floating point arrays is exposed.
-The original length of the float/double array must be known.
+The original length of the float array must be known.
+
+> [!NOTE] This project is limited to a specific application: compressing a float array on the backend, and decompressing it on the web.
 
 ### Build
 
