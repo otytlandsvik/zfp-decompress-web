@@ -24,5 +24,8 @@ let ptr = CInterop.compress(doubles, 1562, 1e-1, &outSize)
 let compressed = Array.zeroCreate<byte> outSize
 Marshal.Copy(ptr, compressed, 0, outSize)
 
+// Free buffer
+Marshal.FreeHGlobal ptr
+
 File.WriteAllBytes("doubles_test.zfp", compressed)
 

@@ -7,7 +7,7 @@
 void hello_world() { printf("Hello, from clib!\n"); }
 
 /* compress array */
-char *compress(double *array, size_t nx, double tolerance, size_t *out_size) {
+char *compress(float *array, size_t nx, double tolerance, size_t *out_size) {
   zfp_type type;     /* array scalar type */
   zfp_field *field;  /* array meta data */
   zfp_stream *zfp;   /* compressed stream */
@@ -16,7 +16,7 @@ char *compress(double *array, size_t nx, double tolerance, size_t *out_size) {
   bitstream *stream; /* bit stream to write to or read from */
 
   /* allocate meta data for the 1D array a[nx] */
-  type = zfp_type_double;
+  type = zfp_type_float;
   field = zfp_field_1d(array, type, nx);
 
   /* allocate meta data for a compressed stream */
@@ -53,4 +53,39 @@ char *compress(double *array, size_t nx, double tolerance, size_t *out_size) {
   // free(array);
 
   return buffer;
+}
+
+/* Compress array, writing results to a given file */
+int compress_to_file(float *array, size_t nx, double tolerance,
+                     char *out_path) {
+  size_t out_size;
+
+  /* Compress array */
+  char *compressed = compress(array, nx, tolerance, &out_size);
+  if (compressed == NULL)
+    return 1;
+  if (out_size <= 0) {
+    free(compressed);
+    return 2;
+  }
+
+  /* Open outfile for writing */
+  FILE *fp = fopen(out_path, "wb");
+  if (fp == NULL) {
+    free(compressed);
+    return 3;
+  }
+
+  /* Write compressed buffer to file */
+  size_t written_bytes = fwrite(compressed, 1, out_size, fp);
+  if (written_bytes != out_size) {
+    free(compressed);
+    return 4;
+  }
+
+  /* Clean up */
+  fclose(fp);
+  free(compressed);
+
+  return 0;
 }

@@ -5,10 +5,10 @@
 
 #include <emscripten.h>
 
-
 EMSCRIPTEN_KEEPALIVE
 /* Decompress array */
-double *decompress(char *compressed, size_t compressed_size, size_t nx, double tolerance) {
+float *decompress(char *compressed, size_t compressed_size, size_t nx,
+                  double tolerance) {
   zfp_type type;     /* array scalar type */
   zfp_field *field;  /* array meta data */
   zfp_stream *zfp;   /* compressed stream */
@@ -21,7 +21,7 @@ double *decompress(char *compressed, size_t compressed_size, size_t nx, double t
   double *decompressed = calloc(nx, sizeof(double));
 
   /* allocate meta data for the 1D array a[nx] */
-  type = zfp_type_double;
+  type = zfp_type_float;
   field = zfp_field_1d(decompressed, type, nx);
 
   /* allocate meta data for a compressed stream */
@@ -54,7 +54,7 @@ double *decompress(char *compressed, size_t compressed_size, size_t nx, double t
   zfp_stream_close(zfp);
   stream_close(stream);
   free(buffer);
-  free(decompressed);
+  // free(decompressed);
 
   return decompressed;
 }
